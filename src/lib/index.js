@@ -80,7 +80,9 @@ var vuePhotoPreview ={
 							var thumbnail = items[index].el,
 								pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
 								rect = thumbnail.getBoundingClientRect();
-								console.log(rect)
+								if(!options.silent){
+									console.log(rect)
+								}
 							return {
 								x: rect.left,
 								y: rect.top + pageYScroll,
@@ -251,7 +253,9 @@ var vuePhotoPreview ={
 									items[index]=item
 									count++
 									if(count==thumbElements.length){
-										console.log(items)
+										if(!options.silent){
+											console.log(items)
+										}
 										resolve(items)
 									}
 								}
