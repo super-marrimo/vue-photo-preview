@@ -2,7 +2,7 @@ import previewComponent from './preview.vue'
 import PhotoSwipe from 'photoswipe/dist/photoswipe'
 import PhotoSwipeUI_Default from 'photoswipe/dist/photoswipe-ui-default'
 let $preview
-var vuePhotoPreview ={
+var vuePhotoPreview = {
 	install (Vue,opts) {
         const Preview = Vue.extend(previewComponent)
         var opts=opts||{}
@@ -35,6 +35,14 @@ var vuePhotoPreview ={
 					}, 200);
 					
 				},
+				openPreview(index, className){
+					var clickedGallery = document.querySelectorAll('img.' + className);
+                    if(index >= 0) {
+                        this.openPhotoSwipe(index, clickedGallery);
+                        this.$emit('preview-open',clickedGallery[index].src)
+                    }
+                    return false;
+				},
 				onThumbnailsClick(e) {
 					e = e || window.event;
 					e.preventDefault ? e.preventDefault() : e.returnValue = false;
@@ -43,7 +51,7 @@ var vuePhotoPreview ={
 
 					
 					var thumbElements;
-					var group = eTarget.getAttribute('preview')
+					var group = eTarget.getAttribute('preview');
 					if(group) {
 						thumbElements = document.querySelectorAll('img[preview="' + group + '"]')
 					} else {
@@ -274,17 +282,17 @@ var vuePhotoPreview ={
 					}
 					return o1
 				},
-				init(gallerySelector){
+				initPreview(gallerySelector){
 					this.galleryElements = document.querySelectorAll(gallerySelector);
 					for(var i = 0, l = this.galleryElements.length; i < l; i++) {
 						this.galleryElements[i].setAttribute('data-pswp-uid', i + 1);
-						this.galleryElements[i].onclick = this.onThumbnailsClick;
+						// this.galleryElements[i].onclick = this.onThumbnailsClick;
 					}
 					
 				}
 			},
 		    mounted: function () {
-				this.init('img[preview]')
+				this.initPreview('img[preview]')
 		      	
 		    }
 		})
