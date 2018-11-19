@@ -36,7 +36,7 @@ var vuePhotoPreview = {
 					
 				},
 				openPreview(index, className){
-					var clickedGallery = document.querySelectorAll('img.' + className);
+					var clickedGallery = document.querySelectorAll('img[preview="' + className + '"]');
                     if(index >= 0) {
                         this.openPhotoSwipe(index, clickedGallery);
                         this.$emit('preview-open',clickedGallery[index].src)
@@ -79,7 +79,7 @@ var vuePhotoPreview = {
 						options,
 						items;
 
-					var items = await this.parseThumbnailElements(galleryElement);
+					items = await this.parseThumbnailElements(galleryElement);
 					options = {
 
 						//galleryUID: galleryElement.getAttribute('data-pswp-uid'),
@@ -88,9 +88,6 @@ var vuePhotoPreview = {
 							var thumbnail = items[index].el,
 								pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
 								rect = thumbnail.getBoundingClientRect();
-								if(!options.silent){
-									console.log(rect)
-								}
 							return {
 								x: rect.left,
 								y: rect.top + pageYScroll,
@@ -261,9 +258,6 @@ var vuePhotoPreview = {
 									items[index]=item
 									count++
 									if(count==thumbElements.length){
-										if(!options.silent){
-											console.log(items)
-										}
 										resolve(items)
 									}
 								}
